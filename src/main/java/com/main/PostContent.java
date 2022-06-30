@@ -36,7 +36,8 @@ public class PostContent extends Base{
 			Thread.sleep(15000);
 			driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/div/div/div/div/div/div[3]/div/div/span/div/div[2]/div/div/div/div"))
 			.sendKeys("Posting to YammerAutomation for the " + noOfTimes + " time");
-			                            
+			
+			//post button
 			driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/div[1]/div/div/div/div/div/div[5]/div[2]/div/ul/li/div/div/button"))
 			.click();
 			

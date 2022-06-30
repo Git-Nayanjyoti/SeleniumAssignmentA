@@ -39,7 +39,7 @@ public class GetMostLikedPost extends Base{
 			if(i > 2) {
 				driver.findElement(By.tagName("body")).sendKeys(Keys.HOME);
 			}
-			System.out.println(post.findElements(By.tagName("button")).size());
+			System.out.println(post.findElements(By.tagName("img")).size());
 		}
 		
 		
