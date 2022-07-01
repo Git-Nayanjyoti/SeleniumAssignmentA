@@ -53,7 +53,7 @@ public class MostActiveDay extends Base {
 					tempArray[2] + " " + tempArray[3]
 				);
 		}
-		//sorting the data and printing the out put 
+		//sorting the data and printing the output 
 		Integer[] highest = svgData.keySet().toArray(new Integer[svgData.size()]);
 		System.out.println("\nName of community : " + communityName);
 		System.out.println("The Day when user are most active in " + communityName + "is : "
