@@ -19,7 +19,7 @@ public class Base {
 		driver.manage().window().maximize();
 		
 		//login 
-    	Thread.sleep(2000);
+    	Thread.sleep(3000);
 		driver.findElement(By.xpath("/html/body/div/form[1]/div/div/div[2]/div[1]/div/div/div/div/div[1]/div[3]/div/div/div/div[2]/div[2]/div/input[1]"))
 				.sendKeys("nayanjyoti.rabha@capgemini.com" + Keys.ENTER);
 		Thread.sleep(12000);
