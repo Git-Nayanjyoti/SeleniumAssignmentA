@@ -45,6 +45,7 @@ public class MostActiveDay extends Base {
 		TreeMap<Integer, String> svgData = new TreeMap<Integer, String>();
 		for (WebElement ele : graph) {
 			// getting the data and spliting it accordingly
+			System.out.println("All data ->");
 			System.out.println(ele.getAttribute("aria-label"));
 			String[] tempArray = ele.getAttribute("aria-label").split("\\W");
 			svgData.put(Integer.parseInt(
@@ -52,11 +53,12 @@ public class MostActiveDay extends Base {
 					tempArray[2] + " " + tempArray[3]
 				);
 		}
+		//sorting the data and printing the out put 
 		Integer[] highest = svgData.keySet().toArray(new Integer[svgData.size()]);
-		System.out.println("Name of community : " + communityName);
-		System.out.println("\nThe Day when user are most active in " + communityName + "is : "
+		System.out.println("\nName of community : " + communityName);
+		System.out.println("The Day when user are most active in " + communityName + "is : "
 				+ svgData.get(highest[highest.length - 1]));
-		System.out.println("\nAnd the number of user is: " + highest[highest.length - 1]);
+		System.out.println("And the number of user is: " + highest[highest.length - 1]);
 
 	}
 

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import com.base.Base;
@@ -24,11 +23,7 @@ public class GetMostLikedPost extends Base {
 		// list of post in the given community
 		Thread.sleep(12000);
 		
-		String[] cssSelector = driver.findElement(By.xpath(
-				"/html/body/div[1]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[4]/div/div/div/div/div/div/div[1]/div[5]/div[2]/div/div/div/div/div[1]/div/ul/li/button/div/span/div"))
-				.getAttribute("class").split(" ");
-		String selector = cssSelector[0] + "." + cssSelector[1];
-		System.out.println(selector);
+		
 
 		//scroller
 		Thread.sleep(3000);
@@ -49,30 +44,25 @@ public class GetMostLikedPost extends Base {
 			e.printStackTrace();
 		}
 
+		
+		List<WebElement> posts = driver
+				.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul"))
+				.findElements(By.tagName("li"));
+//
+		System.out.println(posts.size());
+//		WebElement button = driver.findElement(By.xpath("//button[@aria-label=\"Show like reactions\"]"));
+		
+		for(WebElement post : posts) {
+			WebElement button = post.findElement(By.xpath("//button[@aria-label=\\\"Show like reactions\\\"]"));
+			if(button.isDisplayed() == true) { 
+				button.click();
+				//find reaction data or tooltip data
+			}
+		}
+		
+
 		System.out.println("I am here");
-//		List<WebElement> posts = driver
-//				.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul"))
-//				.findElements(By.tagName("li"));
-//
-//		System.out.println(posts.size());
-//		int i = 0;
 
-		// get css selector
-
-		
-		
-		List<WebElement> likedPosts = driver.findElements(By.cssSelector(selector));
-		System.out.println(likedPosts.size());
-
-//		for (WebElement post : posts) {
-////			i++;
-////			if (i > 2) {
-////				JavascriptExecutor js = (JavascriptExecutor) driver;
-////				js.executeScript("window.scrollBy(0, document.body.scrollHeight)", "");
-////			}
-//
-//			System.out.println(post.findElement(By.cssSelector(selector)));
-//		}
 
 	}
 
