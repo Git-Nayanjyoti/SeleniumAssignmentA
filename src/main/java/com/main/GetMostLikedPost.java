@@ -1,7 +1,10 @@
 package com.main;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.openqa.selenium.By;
@@ -55,7 +58,6 @@ public class GetMostLikedPost extends Base {
 			Thread.sleep(2000);
 			Actions action = new Actions(driver);
 			action.moveToElement(post).click().build().perform();
-//			post.click();
 
 			// get the no. of likes
 			Thread.sleep(5000);
@@ -79,13 +81,28 @@ public class GetMostLikedPost extends Base {
 
 		}
 
-		// work left to be done
 		// for most liked post get the data from TreeMap -> reactions and display it
-		// for most active users find the get the frequecy of duplicates in the
-		// ArrayList -> peopleReacted and create a TreeMap with the frequency as keySet
 		// and Name as String
-		// check how to find duplicates in a Stream or List -> BenchResources.Net
-		System.out.println("I am here");
+		Integer[] mostLiked = reactions.keySet().toArray(new Integer[reactions.size()]);
+		System.out.println("The most liked post is: ");
+		System.out.println(reactions.get(mostLiked[mostLiked.length-1]));
+		
+		// for most active users getting the frequecy of duplicates in the
+		// ArrayList -> peopleReacted and create a TreeMap with the frequency as keySet
+		Set<String> mostActiveUsers = new HashSet<String>(peopleReacted);
+		TreeMap<Integer, String> map = new TreeMap<Integer, String>();
+		
+		//finding the frequency of most occuring name in the list
+		for(String str : mostActiveUsers) {
+			map.put(Collections.frequency(peopleReacted, str), str);
+		}
+		System.out.println("The most active users are as follows : ");
+		for(String str: map.descendingMap().values()) {
+			System.out.println(str);
+		}
+		
+		
+		System.out.println("Successfully extracted the data of most like post and most users online.");
 
 	}
 

@@ -16,9 +16,10 @@ public class TestSplit {
 		createList("1. Jun 26, 40.");
 		
 
+		int n = map.size();
 		Integer[] highest = map.keySet().toArray(new Integer[map.size()]);
-		System.out.println(map.get(highest[highest.length-1]));
-		
+		System.out.println(map.get(highest[n-1]));
+		System.out.println();
 	}
 	public static void createList(String st) {
 //		String str = "1. Jun 23, 0.";
