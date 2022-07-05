@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -28,19 +29,23 @@ public class GetMostLikedPost extends Base {
 		Thread.sleep(12000);
 
 		// scroller
+		System.out.println("Scrolling the page for finding the amount of post");
+		long temp = 0;
 		try {
-//			long end = (Long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
-			int temp = 1000;
+
 			while (true) {
 				((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
-				Thread.sleep(2500);
+				Thread.sleep(3000);
 
 				long start = (Long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
-				if (start <= temp) {
+
+				if (start == temp) {
 					break;
 				}
-				temp += 500;
+				temp = start;
 			}
+
+			System.out.println("completed the scroll");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -50,59 +55,74 @@ public class GetMostLikedPost extends Base {
 				.findElement(By.xpath("//div[@role=\"main\"]//h2[text()='Conversations']//following::ul"))
 				.findElements(By.xpath("//button[@aria-label=\"Show like reactions\"]"));
 
-		System.out.println(posts.size());
+		// post content
+		List<WebElement> postContent = driver
+				.findElement(By.xpath("//div[@role=\"main\"]//h2[text()='Conversations']//following::ul"))
+				.findElements(By.xpath("//button[@aria-label=\"Show like reactions\"]/ancestor::div/h3"));
 
 		TreeMap<Integer, String> reactions = new TreeMap<Integer, String>();
-		List<String> peopleReacted = new ArrayList<String>();
+		ArrayList<String> peopleReacted = new ArrayList<String>();
+		int i = 0;
 		for (WebElement post : posts) {
-			Thread.sleep(2000);
-			Actions action = new Actions(driver);
-			action.moveToElement(post).click().build().perform();
-
-			// get the no. of likes
-			Thread.sleep(5000);
-			List<WebElement> reactors = driver.findElements(By.xpath("//div[@id=\"y-modalDialog--title\"]//following::ul/li"));
-			int numOfLikes = reactors.size();
-
-			// store numOfLikes and post details in TreeMap reactions
-			reactions.put(numOfLikes, post.getText());
-
-			// get the people names who liked the post
-			for (WebElement name : reactors) {
-				peopleReacted.add(name.getText());
-			}
-
 			// name of person who posted the post
 			peopleReacted.add(driver
 					.findElement(By.xpath("//span[@class=\"undefined lpc-hoverTarget\"]//following::div/a")).getText());
 
+			Thread.sleep(2000);
+			Actions action = new Actions(driver);
+			action.moveToElement(post).click().build().perform();
+
+			// get the no. of likes and post content
+			Thread.sleep(5000);
+			List<WebElement> reactors = driver
+					.findElements(By.xpath("//div[@id=\"y-modalDialog--title\"]//following::ul/li//a"));
+			int numOfLikes = reactors.size();
+
+			// get the people names who liked the post
+			Thread.sleep(3000);
+			for (WebElement name : reactors) {
+				peopleReacted.add(name.getAttribute("aria-label"));
+			}
+
 			// close reaction tab
 			driver.findElement(By.xpath("//button[@aria-label=\"Close\"]")).click();
 
+			// store numOfLikes and post details in TreeMap reactions
+			reactions.put(numOfLikes, postContent.get(i).getText());
+
+			i++;
 		}
 
 		// for most liked post get the data from TreeMap -> reactions and display it
 		// and Name as String
 		Integer[] mostLiked = reactions.keySet().toArray(new Integer[reactions.size()]);
+		System.out.println("\nThe most no. of likes is:" + mostLiked[mostLiked.length - 1]);
 		System.out.println("The most liked post is: ");
-		System.out.println(reactions.get(mostLiked[mostLiked.length-1]));
-		
+		System.out.println(reactions.get(mostLiked[mostLiked.length - 1]));
+
 		// for most active users getting the frequecy of duplicates in the
 		// ArrayList -> peopleReacted and create a TreeMap with the frequency as keySet
-		Set<String> mostActiveUsers = new HashSet<String>(peopleReacted);
-		TreeMap<Integer, String> map = new TreeMap<Integer, String>();
-		
-		//finding the frequency of most occuring name in the list
-		for(String str : mostActiveUsers) {
-			map.put(Collections.frequency(peopleReacted, str), str);
+		Map<Integer, Set<String>> mostActiveUsers = new TreeMap<Integer, Set<String>>();
+
+		// finding the frequency of most occuring name in the list
+		for (String activeUsers : peopleReacted) {
+			Set<String> tempSet = new HashSet<String>();
+			tempSet.add(activeUsers);
+			for (String users : peopleReacted) {
+				if (Collections.frequency(peopleReacted, activeUsers) == Collections.frequency(peopleReacted,
+						activeUsers)) {
+					tempSet.add(users);
+				}
+			}
+			mostActiveUsers.put(Collections.frequency(peopleReacted, activeUsers), tempSet);
 		}
-		System.out.println("The most active users are as follows : ");
-		for(String str: map.descendingMap().values()) {
-			System.out.println(str);
+		System.out.println("\nThe most active users are as follows : ");
+		Integer[] reverseOrder = mostActiveUsers.keySet().toArray(new Integer[mostActiveUsers.size()]);
+		for (int index = reverseOrder.length - 1; index >= 0; index--) {
+			System.out.println(mostActiveUsers.get(reverseOrder[index]));
 		}
-		
-		
-		System.out.println("Successfully extracted the data of most like post and most users online.");
+
+		System.out.println("\nSuccessfully extracted the data of most like post and most users online.");
 
 	}
 
