@@ -117,10 +117,10 @@ public class GetMostLikedPost extends Base {
 		for (String activeUser : joinedFnameLname) {
 			Set<String> tempSet = new HashSet<String>();
 			tempSet.add(activeUser);
-			for (String users : joinedFnameLname) {
+			for (String user : joinedFnameLname) {
 				if (Collections.frequency(joinedFnameLname, activeUser) == Collections.frequency(joinedFnameLname,
-						activeUser)) {
-					tempSet.add(users);
+						user)) {
+					tempSet.add(user);
 				}
 			}
 			mostActiveUsers.put(Collections.frequency(joinedFnameLname, activeUser), tempSet);
