@@ -22,32 +22,41 @@ import freemarker.core.CollectionAndSequence;
 public class newTest {
 	public static void main(String[] args) {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("Nayan");
-		list.add("Rahul");
-		list.add("kalyan");
-		list.add("Rahul");
-		list.add("Nayan");
-		list.add("Nayan");
-		list.add("Patil");
-		list.add("Patil");
-		list.add("Vicky");
-		list.add("Gopal");
-		list.add("Nayan");
-		list.add("Patil");
-		list.add("Patil");
-		list.add("Vicky");
-		list.add("Gopal");
+		list.add("Nayan, Rabha");
+		list.add("Rahul, Sharma");
+		list.add("kalyan, Gogoi");
+		list.add("Rahul, Sharma");
+		list.add("Nayan, Rabha");
+		list.add("Nayan, Rabha");
+		list.add("Patil, Verma");
+		list.add("Patil, Verma");
+		list.add("Vicky, Kaushal");
+		list.add("Gopal, Verma");
+		list.add("Nayan, Rabha");
+		list.add("Patil, Verma");
+		list.add("Patil, Verma");
+		list.add("Vicky, Kaushal");
+		list.add("Gopal, Verma");
+		
+		List<String> joinedFnameLname = new ArrayList<String>();
+		for(String string : list) {
+			String[] nameArray = string.split(",");
+			String fname = nameArray[0];
+			String lname = nameArray[1];
+			joinedFnameLname.add(fname + lname);
+		}
 
 		Map<Integer,Set<String>> map = new TreeMap<Integer,Set<String>>();
-		for(String st : list) {
+		for(String st : joinedFnameLname) {
+			
 			Set<String> temp = new HashSet<String>();
 			temp.add(st);
-			for(String str: list) {
-				if(Collections.frequency(list, st) == Collections.frequency(list, str)) {
+			for(String str: joinedFnameLname) {
+				if(Collections.frequency(joinedFnameLname, st) == Collections.frequency(joinedFnameLname, str)) {
 					temp.add(str);
 				}
 			}
-			map.put(Collections.frequency(list, st), temp);
+			map.put(Collections.frequency(joinedFnameLname, st), temp);
 		}
 
 		Integer[] highest = map.keySet().toArray(new Integer[map.size()]);

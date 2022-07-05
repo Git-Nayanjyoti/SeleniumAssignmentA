@@ -103,18 +103,27 @@ public class GetMostLikedPost extends Base {
 		// for most active users getting the frequecy of duplicates in the
 		// ArrayList -> peopleReacted and create a TreeMap with the frequency as keySet
 		Map<Integer, Set<String>> mostActiveUsers = new TreeMap<Integer, Set<String>>();
+		
+		//Joining the Fname and Lname
+		List<String> joinedFnameLname = new ArrayList<String>();
+		for(String string : peopleReacted) {
+			String[] nameArray = string.split(",");
+			String fname = nameArray[0];
+			String lname = nameArray[1];
+			joinedFnameLname.add(fname + lname);
+		}
 
 		// finding the frequency of most occuring name in the list
-		for (String activeUsers : peopleReacted) {
+		for (String activeUser : joinedFnameLname) {
 			Set<String> tempSet = new HashSet<String>();
-			tempSet.add(activeUsers);
-			for (String users : peopleReacted) {
-				if (Collections.frequency(peopleReacted, activeUsers) == Collections.frequency(peopleReacted,
-						activeUsers)) {
+			tempSet.add(activeUser);
+			for (String users : joinedFnameLname) {
+				if (Collections.frequency(joinedFnameLname, activeUser) == Collections.frequency(joinedFnameLname,
+						activeUser)) {
 					tempSet.add(users);
 				}
 			}
-			mostActiveUsers.put(Collections.frequency(peopleReacted, activeUsers), tempSet);
+			mostActiveUsers.put(Collections.frequency(joinedFnameLname, activeUser), tempSet);
 		}
 		System.out.println("\nThe most active users are as follows : ");
 		Integer[] reverseOrder = mostActiveUsers.keySet().toArray(new Integer[mostActiveUsers.size()]);
